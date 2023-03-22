@@ -1,7 +1,8 @@
 const {ethers , providers} = require('ethers') ; 
 require('dotenv').config();
 const { PRIVATE_KEY , API_URL , ARBITRUM_API_URL , ARBITRUM_NODE_AWS , 
-      ARBITRUM_YOUTUBE , ARBITRUM_BLOCKVISION , ARBITRUM_BLOCKFI , AMAZON_ETHEREUM_URL} = process.env;
+      ARBITRUM_YOUTUBE , ARBITRUM_BLOCKVISION , ARBITRUM_BLOCKFI , AMAZON_ETHEREUM_URL ,
+      ANKR_ETH_API_URL, ANKR_ARB_API_URL } = process.env;
 
 
 var arbitrumProvider = new ethers.providers.JsonRpcProvider(ARBITRUM_API_URL , 42161) ;
@@ -11,6 +12,8 @@ var youtubeArbitrumNode = new ethers.providers.JsonRpcProvider(ARBITRUM_YOUTUBE 
 var blockvisionArbitrum = new ethers.providers.JsonRpcProvider(ARBITRUM_BLOCKVISION , 42161) ;
 var blockfiArbitrum = new ethers.providers.JsonRpcProvider(ARBITRUM_BLOCKFI , 42161) ;
 var mainnetProvider = new ethers.providers.JsonRpcProvider(API_URL , 1) ;
+var ankrArbitrum = new ethers.providers.JsonRpcProvider(ANKR_ARB_API_URL , 42161) ;
+var ankrEthereum = new ethers.providers.JsonRpcProvider(ANKR_ETH_API_URL , 1) ;
 
 
 const ArbClaimContract = require("../artifacts/contracts/TokenDistributor.sol/TokenDistributor.json") ;
@@ -33,7 +36,7 @@ let waitTime = 1000 ; // as milliseconds
 async function getEthereumBlockNumber() {
     console.log("Getting ETH Block Number") ;
     let date = Date.now() ;
-    var mainnetLatest = await mainnetProvider.getBlockNumber() ;
+    var mainnetLatest = await ankrEthereum.getBlockNumber() ;
     let secondDate = Date.now() ;
     console.log("ETH Mainnet blocknumber: " + mainnetLatest + " with " + (secondDate - date) + " ms lag.") ;
     console.log("") ;
@@ -45,7 +48,7 @@ async function getEthereumBlockNumber() {
     console.log("Getting Arbitrum Block Number") ;
     let date = Date.now() ;
     //var latestBlock = await arbitrumProvider.getBlockNumber() ;
-    var latestBlock = await awsEthereumNode.getBlockNumber() ;
+    var latestBlock = await ankrArbitrum.getBlockNumber() ;
     let secondDate = Date.now() ;
     console.log("ARBITRUM blocknumber: " + latestBlock + " with " + (secondDate - date) + " ms lag.") ;
     console.log("") ;
@@ -114,8 +117,10 @@ let arbBlockNumber = await getArbitrumBlockNumber() ;
 }
 
 async function arbClaim() {
-
+   while(true) {
    let ethBlockNumber = await getEthereumBlockNumber() ;
+   let _arbBlockNumber = await getArbitrumBlockNumber() ;
+   }
 // const receipt = sendEth(account , "0x01DD3a8ef7F2E6eb3721CA797b0C3bF47463843d") ;
 
 } ;
