@@ -364,6 +364,41 @@
       "artifacts": [
         "Math"
       ]
+    },
+    "/Users/barisarya/code/arb-claim/contracts/BlockNumber.sol": {
+      "lastModificationDate": 1679519774495,
+      "contentHash": "de0bb68e7e574a32edc5e95fbb8632d3",
+      "sourceName": "contracts/BlockNumber.sol",
+      "solcConfig": {
+        "version": "0.8.16",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "0.8.16"
+      ],
+      "artifacts": [
+        "BlockNumber"
+      ]
     }
   }
 }
