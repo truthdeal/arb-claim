@@ -1,10 +1,11 @@
 const {ethers , providers} = require('ethers') ; 
 require('dotenv').config();
 const { PRIVATE_KEY , API_URL , ARBITRUM_API_URL , ARBITRUM_NODE_AWS , 
-      ARBITRUM_YOUTUBE , ARBITRUM_BLOCKVISION , ARBITRUM_BLOCKFI} = process.env;
+      ARBITRUM_YOUTUBE , ARBITRUM_BLOCKVISION , ARBITRUM_BLOCKFI , AMAZON_ETHEREUM_URL} = process.env;
 
 
 var arbitrumProvider = new ethers.providers.JsonRpcProvider(ARBITRUM_API_URL , 42161) ;
+var awsEthereumNode = new ethers.providers.JsonRpcProvider(AMAZON_ETHEREUM_URL , 1) ;
 var awsArbitrumNode = new ethers.providers.JsonRpcProvider(ARBITRUM_NODE_AWS , 42161) ;
 var youtubeArbitrumNode = new ethers.providers.JsonRpcProvider(ARBITRUM_YOUTUBE , 42161) ;
 var blockvisionArbitrum = new ethers.providers.JsonRpcProvider(ARBITRUM_BLOCKVISION , 42161) ;
@@ -21,7 +22,7 @@ const account = signer.connect(arbitrumProvider) ; // To change arbitrum RPC pro
 
 // Parameters 
 
-let GASPRICE = 30 ; // Gas price as gwei
+let GASPRICE = 1 ; // Gas price as gwei
 GASPRICE = ethers.utils.parseUnits( String(GASPRICE) , 9) ;
 
 let arbClaimed = false ;
@@ -43,7 +44,8 @@ async function getEthereumBlockNumber() {
 
     console.log("Getting Arbitrum Block Number") ;
     let date = Date.now() ;
-    var latestBlock = await arbitrumProvider.getBlockNumber() ;
+    //var latestBlock = await arbitrumProvider.getBlockNumber() ;
+    var latestBlock = await awsEthereumNode.getBlockNumber() ;
     let secondDate = Date.now() ;
     console.log("ARBITRUM blocknumber: " + latestBlock + " with " + (secondDate - date) + " ms lag.") ;
     console.log("") ;
@@ -63,6 +65,20 @@ async function getEthereumBlockNumber() {
 
 }
 
+async function sendEth (_sender , _taker) {
+
+   let tx = {
+      from: _sender.address,
+      to: _taker,
+      value: ethers.utils.parseEther("0.0001"),
+      gasPrice: GASPRICE
+  } ;
+  
+  const receipt = await _sender.sendTransaction(tx) ;
+  await receipt.wait() ;
+
+  return receipt; 
+}
 
 
 async function main() {
@@ -97,4 +113,14 @@ let arbBlockNumber = await getArbitrumBlockNumber() ;
 
 }
 
-main() ;
+async function arbClaim() {
+
+   let ethBlockNumber = await getEthereumBlockNumber() ;
+// const receipt = sendEth(account , "0x01DD3a8ef7F2E6eb3721CA797b0C3bF47463843d") ;
+
+} ;
+
+arbClaim() ;
+
+
+//main() ;
