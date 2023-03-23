@@ -100,9 +100,11 @@ async function main() {
 
         let rawdata = fs.readFileSync('./config.json');
         let stats = JSON.parse(rawdata);
-        console.log(stats.start);
-        started = stats.start;
+        if (stats.start) {
 
+          console.log("Sell islemi gonderilmeye calisiliyor");
+          
+        }
         await new Promise(resolve => setTimeout(resolve, (15)));
 
       }
