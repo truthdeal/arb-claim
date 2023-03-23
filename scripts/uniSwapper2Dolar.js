@@ -19,7 +19,7 @@ const signer = new ethers.Wallet(PRIV_KEY) ;
 const account = signer.connect(arbitrumProvider) ; 
 
 
-let GASPRICE = 10000000008 ; //wei 
+let GASPRICE = 20000000008 ; //wei 
 const inputAmount = 2250 // satış miktarı
 const outputAmount = 5500 //
 
@@ -96,18 +96,6 @@ async function main() {
       */
 
 
-      while (!started) {
-
-        let rawdata = fs.readFileSync('./config.json');
-        let stats = JSON.parse(rawdata);
-        if (stats.start) {
-
-          console.log("Sell islemi gonderilmeye calisiliyor");
-          
-        }
-        await new Promise(resolve => setTimeout(resolve, (15)));
-
-      }
 
       const params = {
         tokenIn: immutables.token0,

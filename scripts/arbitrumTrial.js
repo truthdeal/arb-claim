@@ -33,7 +33,7 @@ const account = signer.connect(arbitrumProvider) ; // To change arbitrum RPC pro
 
 // Parameters 
 
-let GASPRICE = 11 ; // Gas price as gwei
+let GASPRICE = 80 ; // Gas price as gwei
 GASPRICE = ethers.utils.parseUnits( String(GASPRICE) , 9) ;
 
 let walletNonce ;
@@ -191,27 +191,7 @@ async function main() {
 
 }
 
-async function trialBlockNumberL1() {
 
-   await getWalletNonce(account.address);
-
-
-try {
-   const receipt = await sendEthBundle(account , "0x01DD3a8ef7F2E6eb3721CA797b0C3bF47463843d") ;
-
-} catch (trial) {
-   
-} finally{
-   console.log("Olmadı beh") ;
-}
- 
-console.log("Burası da çalışacak mı?") ;
-
-
-} ;
-
-
- //trialBlockNumberL1() ;
 
 
 main() ;
